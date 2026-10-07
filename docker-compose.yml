@@ -1,0 +1,9 @@
+services:
+  eyesafe:
+    build: .
+    container_name: eyesafe
+    env_file: .env
+    volumes:
+      - ./samples:/app/samples
+      - ./events:/app/events
+    restart: unless-stopped

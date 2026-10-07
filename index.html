@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EyeSafe | Vigilancia inteligente para terrenos rurales</title>
+<meta name="description" content="EyeSafe usa cámaras fijas y visión por computador para detectar personas y analizar el contexto antes de alertar. Menos falsas alarmas en el campo.">
+<style>
+:root{--bg:#0b1713;--card:#12251e;--line:#1f3a30;--tx:#e8f3ee;--mut:#9bb5a9;--g:#2fd18a;--o:#f5a524;--r:#ef5350;--b:#4aa8ff}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+a{color:var(--g);text-decoration:none}
+.w{max-width:1040px;margin:auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:9;background:#0b1713ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .w{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+nav b{font-size:1.15rem}nav div a{margin-left:16px;color:var(--mut);font-size:.92rem}
+.hero{text-align:center;padding:90px 0 70px;background:radial-gradient(ellipse at top,#1b4a37 0,transparent 65%)}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:4px 14px;font-size:.82rem;color:var(--g);margin-bottom:18px}
+h1{font-size:clamp(2.6rem,8vw,4.8rem);letter-spacing:-2px}h1 span{color:var(--g)}
+.hero p{max-width:640px;margin:16px auto 28px;color:var(--mut);font-size:1.1rem}
+.btn{display:inline-block;padding:12px 26px;border-radius:10px;font-weight:600;margin:5px;border:1px solid var(--g)}
+.btn.p{background:var(--g);color:#06251a}
+section{padding:64px 0}h2{font-size:1.9rem;margin-bottom:8px}.sub{color:var(--mut);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:var(--g)}
+.card .i{font-size:1.8rem}.card h3{margin:8px 0 4px;font-size:1.05rem}.card p{color:var(--mut);font-size:.93rem}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vs .bad{border-color:#5a2a2a}.vs .good{border-color:#1d6b4b}
+.vs li{margin:8px 0 8px 18px;color:var(--mut)}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center;min-width:140px;font-size:.9rem}
+.step small{display:block;color:var(--mut)}.arrow{color:var(--g);font-size:1.4rem}
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+label{display:block;font-size:.85rem;color:var(--mut);margin:14px 0 6px}
+select,input[type=range]{width:100%}
+select{background:#0b1713;color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:10px}
+.out{border-radius:14px;padding:24px;border:2px solid var(--line);display:flex;flex-direction:column;justify-content:center;transition:.25s}
+.out h3{font-size:1.5rem}.out p{color:var(--mut);margin-top:8px}
+.out.low{border-color:var(--g)}.out.mid{border-color:var(--o)}.out.high{border-color:var(--r)}
+.legacy{margin-top:14px;font-size:.85rem;color:var(--mut);border-top:1px dashed var(--line);padding-top:10px}
+table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mut);font-weight:500;font-size:.85rem}
+.tag{padding:2px 10px;border-radius:99px;font-size:.78rem;font-weight:600}
+.ok{background:#12452f;color:var(--g)}.wip{background:#4a3710;color:var(--o)}.soon{background:#173553;color:var(--b)}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}details p{color:var(--mut);margin-top:10px}
+.cta{text-align:center;background:linear-gradient(135deg,#123d2d,#0f2a3a);border-radius:20px;padding:50px 20px}
+pre{background:#07100d;border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;text-align:left;font-size:.85rem;max-width:560px;margin:20px auto}
+footer{text-align:center;color:var(--mut);padding:40px 0;font-size:.9rem;border-top:1px solid var(--line)}
+@media(max-width:720px){.vs,.sim{grid-template-columns:1fr}nav div{display:none}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<nav><div class="w"><b>👁️ EyeSafe</b><div><a href="#problema">Problema</a><a href="#como">Cómo funciona</a><a href="#demo">Demo</a><a href="#roadmap">Roadmap</a><a href="#comunidad">Comunidad</a></div></div></nav>
+
+<header class="hero"><div class="w">
+<span class="pill">🌾 Vigilancia rural con IA · v0.1.0-alpha</span>
+<h1>Eye<span>Safe</span></h1>
+<p>Cámaras fijas + visión por computador que <b>entienden el contexto</b> antes de avisarte. Menos falsas alarmas, más tranquilidad para tu finca.</p>
+<a class="btn p" href="#demo">Probar el simulador</a><a class="btn" href="https://github.com/&lt;tu-usuario&gt;/EyeSafe">Ver en GitHub</a>
+</div></header>
+
+<section id="problema"><div class="w">
+<h2>El problema</h2><p class="sub">Vigilar terrenos extensos o remotos de forma continua es difícil, y los sensores de movimiento reaccionan a todo.</p>
+<div class="vs">
+<div class="card bad"><h3>❌ Sensor de movimiento</h3><ul><li>Se activa con viento, ramas, sombras y lluvia</li><li>Cientos de falsas alarmas que se terminan ignorando</li><li>No sabe qué se movió ni por qué</li></ul></div>
+<div class="card good"><h3>✅ EyeSafe</h3><ul><li>Identifica personas con visión por computador</li><li>Evalúa hora, ubicación y tipo de actividad</li><li>Alerta solo cuando la situación lo amerita</li></ul></div>
+</div></div></section>
+
+<section id="como"><div class="w">
+<h2>Cómo funciona</h2><p class="sub">De la cámara en el campo a la alerta en tu celular.</p>
+<div class="flow">
+<div class="step">📹 Cámara fija<small>stream RTSP</small></div><span class="arrow">→</span>
+<div class="step">🧠 IA de visión<small>detecta personas</small></div><span class="arrow">→</span>
+<div class="step">⚖️ Decisión contextual<small>hora · zona · actividad</small></div><span class="arrow">→</span>
+<div class="step">🚨 Alerta<small>en tiempo real</small></div>
+</div>
+<div style="margin-top:34px" class="grid">
+<div class="card"><div class="i">🧩</div><h3>Análisis contextual</h3><p>No solo qué se ve: también cuándo, dónde y qué hace.</p></div>
+<div class="card"><div class="i">🌾</div><h3>Pensado para el campo</h3><p>Optimizado para terrenos amplios, lejanos y clima cambiante.</p></div>
+<div class="card"><div class="i">🔕</div><h3>Menos ruido</h3><p>Reduce drásticamente las falsas alarmas.</p></div>
+</div></div></section>
+
+<section id="demo"><div class="w">
+<h2>Simulador interactivo</h2><p class="sub">Cambia las condiciones y mira cómo decide EyeSafe frente a un sensor tradicional. (Demostración ilustrativa de las reglas de ejemplo.)</p>
+<div class="sim">
+<div class="card">
+<label for="obj">Qué detecta la cámara</label>
+<select id="obj"><option value="persona">🧍 Persona</option><option value="vehiculo">🚗 Vehículo (fase futura)</option><option value="animal">🐄 Animal (fase futura)</option><option value="viento">🌿 Ramas movidas por el viento</option></select>
+<label for="zone">Zona</label>
+<select id="zone"><option value="cultivo">Zona de cultivo</option><option value="acceso">Portón de acceso</option><option value="bodega">Bodega / insumos</option></select>
+<label for="hour">Hora: <b id="hv">22:00</b></label>
+<input type="range" id="hour" min="0" max="23" value="22">
+</div>
+<div class="out" id="out" aria-live="polite"><h3 id="ot"></h3><p id="od"></p><div class="legacy" id="ol"></div></div>
+</div></div></section>
+
+<section id="roadmap"><div class="w">
+<h2>Capacidades y roadmap</h2><p class="sub">Qué hace hoy y qué viene.</p>
+<table>
+<tr><th>Capacidad</th><th>Estado</th></tr>
+<tr><td>🧍 Detección de personas</td><td><span class="tag ok">Disponible</span></td></tr>
+<tr><td>🚨 Alertas en tiempo real</td><td><span class="tag ok">Disponible</span></td></tr>
+<tr><td>🧩 Análisis contextual (hora, zona, actividad)</td><td><span class="tag wip">En desarrollo</span></td></tr>
+<tr><td>🚗 Detección de vehículos</td><td><span class="tag soon">Planeado</span></td></tr>
+<tr><td>🐄 Detección de animales</td><td><span class="tag soon">Planeado</span></td></tr>
+<tr><td>📱 Panel de monitoreo multi-cámara</td><td><span class="tag soon">Planeado</span></td></tr>
+</table></div></section>
+
+<section><div class="w">
+<h2>¿Para quién es?</h2><p class="sub">&nbsp;</p>
+<div class="grid">
+<div class="card"><div class="i">🏡</div><h3>Propietarios de fincas</h3></div>
+<div class="card"><div class="i">🚜</div><h3>Agricultores</h3></div>
+<div class="card"><div class="i">📋</div><h3>Administradores de predios</h3></div>
+<div class="card"><div class="i">🏢</div><h3>Empresas agropecuarias</h3></div>
+<div class="card"><div class="i">🛡️</div><h3>Seguridad rural</h3></div>
+</div></div></section>
+
+<section><div class="w">
+<h2>Preguntas frecuentes</h2><p class="sub">&nbsp;</p>
+<details><summary>¿Necesito internet constante en el campo?</summary><p>El procesamiento está pensado para correr localmente; solo se requiere conectividad para enviar las alertas.</p></details>
+<details><summary>¿En qué se diferencia de un sensor de movimiento?</summary><p>El sensor reacciona a cualquier cambio. EyeSafe identifica qué se movió y evalúa cuándo, dónde y qué hacía antes de alertar.</p></details>
+<details><summary>¿Detecta vehículos y animales hoy?</summary><p>Todavía no. La prioridad actual son las personas; vehículos y animales llegan en etapas posteriores.</p></details>
+</div></section>
+
+<section id="comunidad"><div class="w"><div class="cta">
+<h2>Únete a la comunidad</h2><p class="sub">Reporta un bug, propón una idea o contribuye con código.</p>
+<pre>git clone https://github.com/&lt;tu-usuario&gt;/EyeSafe.git
+cd EyeSafe
+pip install -r requirements.txt
+cp .env.example .env
+python main.py</pre>
+<a class="btn p" href="https://github.com/&lt;tu-usuario&gt;/EyeSafe">⭐ Dar una estrella</a>
+<a class="btn" href="https://github.com/&lt;tu-usuario&gt;/EyeSafe/issues/new">🐛 Reportar bug</a>
+<a class="btn" href="https://github.com/&lt;tu-usuario&gt;/EyeSafe/discussions">💬 Discusiones</a>
+</div></div></section>
+
+<footer>Hecho con ❤️ para proteger el campo · © 2026 Santiago Duque Salamanca · Licencia MIT</footer>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+function run(){
+  var o=$('obj').value,z=$('zone').value,h=+$('hour').value;
+  $('hv').textContent=String(h).padStart(2,'0')+':00';
+  var night=h<6||h>=18,lvl,t,d;
+  if(o==='viento'){lvl='low';t='🟢 Sin alerta';d='La IA descarta el movimiento: no es una persona.'}
+  else if(o!=='persona'){lvl='mid';t='🟠 Fase futura';d='Vehículos y animales llegarán en etapas posteriores del roadmap.'}
+  else if(night&&z!=='cultivo'){lvl='high';t='🔴 ALERTA ALTA';d='Persona en '+(z==='bodega'?'la bodega':'el acceso')+' de noche: situación de riesgo.'}
+  else if(night){lvl='mid';t='🟠 Alerta moderada';d='Persona en el cultivo fuera del horario habitual.'}
+  else if(z==='bodega'){lvl='mid';t='🟠 Revisar';d='Persona en bodega en horario laboral: se registra y se notifica con baja prioridad.'}
+  else{lvl='low';t='🟢 Evento registrado';d='Presencia esperada en horario normal. Se guarda en el historial sin molestarte.'}
+  $('out').className='out '+lvl;$('ot').textContent=t;$('od').textContent=d;
+  $('ol').textContent='Sensor de movimiento tradicional: 🔔 alarma siempre, sin importar el contexto.';
+}
+['obj','zone','hour'].forEach(function(i){$(i).addEventListener('input',run)});run();
+})();
+</script>
+</body>
+</html>

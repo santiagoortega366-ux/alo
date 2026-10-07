@@ -1,0 +1,16 @@
+# Entorno
+venv/
+.venv/
+.env
+__pycache__/
+*.pyc
+
+# Datos generados
+events/
+samples/*.mp4
+*.pt
+
+# IDE / SO
+.vscode/
+.idea/
+.DS_Store
